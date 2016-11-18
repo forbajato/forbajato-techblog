@@ -1,0 +1,5 @@
+[project]
+name = Forbajato Techblog
+
+[packages]
+lektor-disqus-comments = 0.1

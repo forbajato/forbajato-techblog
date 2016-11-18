@@ -1,0 +1,7 @@
+title: Welcome to Forbajato Techblog!
+---
+body:
+
+This is a migration of my old Jekyll Bootstrap site hosted on ghpages to a [Lektor](https://www.getlektor.com/) site hosted on ghpages.  Up until October 2016 this site was done in Jekyll Bootstrap, then I discovered Lektor and decided to give it a try - awesome!
+
+The point of the site is to allow me to document tech struggles and wins, mostly for my own use but if it helps others that is great too!  If you find articles useful please leave comments. If you have questions - comments work for those too!
