@@ -1,0 +1,196 @@
+<!doctype html>
+<head>
+    <!--<link href="https://fonts.googleapis.com/css?family=Advent+Pro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <!-- <link rel="stylesheet" href="/css/bootstrap-theme.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../../static/style.css">
+</head>
+<meta charset="utf-8">
+
+<!-- <link rel="stylesheet" href="/css/bootstrap-theme.min.css"> -->
+<title>Encrypting containers in Linux — Forbajato Techblog</title>
+<body id="bgc">
+    <div class="navbar navbar-default navbar-fixed-top" id="bgc">
+      <div class="container">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> </button>
+      <a class="navbar-brand" href="#">ForbajatoTechblog</a>
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../blog/">Blog</a></li>
+        
+          <li><a href="../../projects/">Projects</a></li>
+        
+          <li><a href="../../about/">About</a></li>
+        
+      <!-- <li class="active"><a href="#home">Home</a></li>
+      <li class="active"><a href="#portfolio">Blog</a></li>
+      <li class="active"><a href="#about">About</a></li> -->
+      </ul></span>
+      <span class="icon-bar">
+      <!-- <ul class="nav navbar navbar-center">
+      <li><a href="http://www.gansugateway.com">Gansu Gateway</a></li>
+      </ul> --> </span>
+      <span class="icon-bar"></span>
+      </div>
+      <div class="navbar-header">
+      <div class="navbarcal-collapse collapse">
+      </div>
+      </div>
+  </div>
+<div class="container">
+  <header>
+      <div class="content">
+       <div class="row">
+       <div class="page-header-wrapper">
+       <div class="page-header">
+       <h1 id="headline">Welcome to Forbajato's Techblog!<small> Documenting tech wins and losses</small></h1>
+       </div>
+   </div>
+   </div>
+   </div>
+</div>
+<!--    <h1>Forbajato Techblog</h1>
+    <nav>
+      <ul class="nav navbar-nav">
+        <li><a href="../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../blog/">Blog</a></li>
+        
+          <li><a href="../../projects/">Projects</a></li>
+        
+          <li><a href="../../about/">About</a></li>
+        
+      </ul>
+  </nav> -->
+  </header>
+  <div class="container">
+  <div class="page">
+    
+  
+  <div class="blog-post">
+  
+    <h2>Encrypting containers in Linux</h2>
+  
+  <p class="meta">
+    written by
+    
+      Thomas C Hicks
+    
+    on 2014-06-26
+  </p>
+  <h1>Rationale</h1>
+<p>You may have heard that Truecrypt is dead.  There is lots of speculation as to why and I won't go into that, suffice to say it is no longer considered safe to use truecrypt to encrypt your hard drive or any device attached to your machine.  What I always loved about truecrypt was its ability to encrypt containers that could then be mounted on multiple systems.  Say you have a USB drive that you want encrypted - easy.  Say you just want part of it encrypted - also easy.  It turns out, you can do the same thing with encrypted containers in Linux - have been able to do so for years!  Let's get started ...</p>
+<h1>Necessary packages</h1>
+<p>You may already have this (do <code>which cryptsetup</code> to find out).  If you don't have it, cryptsetup is available in most repos.  On Debian based systems simple apt-get install:</p>
+<pre><code>sudo apt-get install cryptosetup
+</code></pre>
+<p>This will allow you to create and manipulate encrypted containers easily.  The website for cryptsetup is <a href="https://code.google.com/p/cryptsetup">here</a>.</p>
+<h1>Make a container</h1>
+<p>Linux comes with a wonderful little utility called <code>dd</code> - it is definitely the kind of thing about which Uncle Ben would advice Peter however - we are talking great power here.  This utility is sometimes referred to as the "disk destroyer" so be careful and know the switches and options you are using!</p>
+<p>For creating a container we will make a file and write all zeros to it.  <code>dd</code> helps us with this by taking an input file parameter (<code>if=</code>), the zeros come from the /dev/zero file.  You next need to tell <code>dd</code> where to put the file and what to call it, this is the output file parameter (<code>of=</code>), you can tell it wherever you want it to go.  Keep in mind that if you run <code>dd</code> as a normal user not only will you be unlikely to totally hose your system but the resulting container will have your user permissions - a handy feature!</p>
+<pre><code>dd if=/dev/zero of=&lt;path to container&gt;/one.bin count=2000k
+</code></pre>
+<p>The above will create a 1 gigabyte file with all zeros and call it <code>one.bin</code>.</p>
+<h1>Connecting to loopback device</h1>
+<p>After you make your container you will need to connect it to a loopback device before you can encrypt it.  You can find the loopback devices in your system with the following:</p>
+<pre><code>ls -liha /dev/loop*
+</code></pre>
+<p>This will list a bunch of files that can be used to connect to your container.  The <code>losetup</code> command connects loopback files to containers (you may have used it to mount iso files to test distros in the past?  What you aren't a distro hopper?).</p>
+<pre><code>sudo losetup /dev/loop1 &lt;path to container&gt;/one.bin
+</code></pre>
+<p>We attached to loop1 but could have used any of them (my system has 7 possibilities).</p>
+<h1>Partitioning the container</h1>
+<p>Before we can format the container we need to put a partition table on it.  For that there are a number of tools (gparted if you like GUI tools, fdisk if you are a terminal hound).  I will leave figuring out how to put the partition on the loopback device to you but suffice to say if you use fdisk (like the command below) accepting the defaults works fine.</p>
+<pre><code>sudo fdisk /dev/loop1
+</code></pre>
+<h1>Encrypting the partition</h1>
+<p>Now we finally get to use cryptsetup to encrypt the container (even before there is a filesystem on it!).</p>
+<pre><code>sudo cryptsetup -v -y luksFormat /dev/loop1
+</code></pre>
+<p>The <code>-v</code> parameter means "give me verbose output" and can be replaced with <code>--verbose</code>.  The <code>-y</code> parameter means "verify my passphrase, get it twice" and can be replaced with <code>--verify-passphrase</code>.  After the parameters is <code>luksFormat</code> - basically you are initializing the LUKS partition.  Be warned - if you run this command on a container that already has a LUKS partition the old one will be completely replaced.  Apparently there is a way to retrieve it (something about header backups) but you are on your own there!</p>
+<h2>Opening the device</h2>
+<p>Now we have to open the device - this is done by opening the LUKS partition and telling the file system to map it to a particular spot.  We need it in a spot in the filesystem so we can later mount it for access.</p>
+<pre><code>sudo cryptsetup luksOpen /dev/loop1 cryptStuff
+</code></pre>
+<p>This will set up a file in <code>/dev/mapper</code> that is called <code>cryptStuff</code>.  As you likely know, things in the /dev tree are easily mounted into the filesystem (as long as they have a filesystem on them!).  So let's put a filesystem on this bad boy.</p>
+<h1>Formatting the encrypted container</h1>
+<p>You can't write to a non-formated container so let's fix that.  Interestingly, you are supposed to be able to use mkfs as a regular user but I can't on my system.  If I make the filesystem as the root user (using <code>sudo</code>) then it will be owned by root and be in the root group.  This may be inconvenient at times so you can specify who the root owner should be by specifying a UID and GID when you make the filesystem.  That is in the extended (<code>-E</code>) options for mkfs.</p>
+<pre><code>sudo mkfs.ext4 -j -E root_owner=&lt;UID&gt;:&lt;GID&gt; /dev/mapper/cryptStuff
+</code></pre>
+<p>If you don't know your user UID and GID you can find it in the passwd file like this:</p>
+<pre><code>less /etc/passwd | grep &lt;username&gt;
+</code></pre>
+<p>The output will have something like this (assuming your username is <code>dude</code> and why would it not be?):</p>
+<pre><code>dude:x:####:####:dude.........
+</code></pre>
+<p>The <code>####</code>'s in the above are the UID and GID respectively.</p>
+<h1>Mount the device</h1>
+<p>Mounting is a simple matter.  You should have a place to mount it:</p>
+<pre><code>mkdir /home/dude/cryptStuff
+</code></pre>
+<p>Then just mount it:</p>
+<pre><code>sudo mount /dev/mapper/cryptStuff /home/dude/cryptStuff
+</code></pre>
+<p>Now you are ready to use.</p>
+<h1>What about shutting it down?</h1>
+<p>This is no big deal if all you need to do is shut it down when you shut down the computer, everything will be handled automatically.  If you want to shut the encrypted container without shutting off the computer just do things in reverse:</p>
+<pre><code>sudo umount /home/dude/cryptStuff
+sudo cryptsetup luksClose /dev/mapper/cryptStuff
+sudo losetup -d /dev/loop1
+</code></pre>
+<p>Nothing to it!</p>
+<h1>What about starting it up the next time?</h1>
+<p>Obviously now the device is made, it has a partition on it and the partition is formated.  All you have to do is connect it to a loop device, map it and mount it:</p>
+<pre><code>sudo losetup /dev/loop1 /home/dude/one.bin
+ sudo cryptsetup luksOpen /dev/loop1 cryptStuff
+sudo mount /dev/mapper/cryptStuff /home/dude/cryptStuff
+</code></pre>
+<p>And voila!</p>
+<p>I leaned heavily on the post <a href="http://www.linux.org/threads/encrypted-containers-without-truecrypt.4478/">here</a> with a few changes and comments to make it clearer to me for future use.  If this isn't clear to you you should check out that post - it is quite good. Alternatively you could take a chance that I could help and leave a comment, I would love to hear from you if this tutorial was helpful or confusing.</p>
+
+  </div>
+
+  <!--
+  Uncomment the below when tags start working
+  <ul>
+    <li>
+        <a href="../../blog/tag/security">
+          All posts tagged security
+    <li>
+        <a href="../../blog/tag/encryption">
+          All posts tagged encryption
+    <li>
+        <a href="../../blog/tag/linux">
+          All posts tagged linux
+    
+</ul> 
+ -->
+<div class="comments">
+<div id="disqus_thread"></div>
+<script>
+  var disqus_config = function() { this.page.identifier = "/blog/encrypting-containers-in-linux"; };
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = '//forbajatotechblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>
+  Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript"
+    rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+</div>
+
+  </div>
+  </div>
+  <footer>
+    &copy; Copyright 2016 by Thomas C. Hicks.
+  </footer>
+</body>

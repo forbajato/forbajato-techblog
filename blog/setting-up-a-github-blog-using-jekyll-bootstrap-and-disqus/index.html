@@ -1,0 +1,255 @@
+<!doctype html>
+<head>
+    <!--<link href="https://fonts.googleapis.com/css?family=Advent+Pro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <!-- <link rel="stylesheet" href="/css/bootstrap-theme.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../../static/style.css">
+</head>
+<meta charset="utf-8">
+
+<!-- <link rel="stylesheet" href="/css/bootstrap-theme.min.css"> -->
+<title>Setting up a github blog using Jekyll Bootstrap and Disqus — Forbajato Techblog</title>
+<body id="bgc">
+    <div class="navbar navbar-default navbar-fixed-top" id="bgc">
+      <div class="container">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> </button>
+      <a class="navbar-brand" href="#">ForbajatoTechblog</a>
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../blog/">Blog</a></li>
+        
+          <li><a href="../../projects/">Projects</a></li>
+        
+          <li><a href="../../about/">About</a></li>
+        
+      <!-- <li class="active"><a href="#home">Home</a></li>
+      <li class="active"><a href="#portfolio">Blog</a></li>
+      <li class="active"><a href="#about">About</a></li> -->
+      </ul></span>
+      <span class="icon-bar">
+      <!-- <ul class="nav navbar navbar-center">
+      <li><a href="http://www.gansugateway.com">Gansu Gateway</a></li>
+      </ul> --> </span>
+      <span class="icon-bar"></span>
+      </div>
+      <div class="navbar-header">
+      <div class="navbarcal-collapse collapse">
+      </div>
+      </div>
+  </div>
+<div class="container">
+  <header>
+      <div class="content">
+       <div class="row">
+       <div class="page-header-wrapper">
+       <div class="page-header">
+       <h1 id="headline">Welcome to Forbajato's Techblog!<small> Documenting tech wins and losses</small></h1>
+       </div>
+   </div>
+   </div>
+   </div>
+</div>
+<!--    <h1>Forbajato Techblog</h1>
+    <nav>
+      <ul class="nav navbar-nav">
+        <li><a href="../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../blog/">Blog</a></li>
+        
+          <li><a href="../../projects/">Projects</a></li>
+        
+          <li><a href="../../about/">About</a></li>
+        
+      </ul>
+  </nav> -->
+  </header>
+  <div class="container">
+  <div class="page">
+    
+  
+  <div class="blog-post">
+  
+    <h2>Setting up a github blog using Jekyll Bootstrap and Disqus</h2>
+  
+  <p class="meta">
+    written by
+    
+      Thomas C Hicks
+    
+    on 2013-12-18
+  </p>
+  <h1>Rationale</h1>
+<p>Ever have a problem with your computer, robot or other tech toy?  If you are like me, you go to <a href="http://duckduckgo.com">Duck Duck Go</a> and search out an answer, try out a few of the first hits, find the perfect solution, tutorial, etc., fix the problem then promptly forget it.  Next time you run into the problem you have to cycle through the steps again.  I am tired of the "lather, rinse, repeat" cycle of technology problem solving - time to start documenting all the best answers someplace that I know I can find again, in a system that I can control and one that I can use to get feedback from a community of nerds to improve my process.  Thus this blog was born!</p>
+<p>I had heard about Twitter bootstrap before and what it promised sounded really good - a way to set up the design of websites so that they look good (something important to me but not important enough to inspire me to figure out the ins and outs of design) and can be rendered on multiple platforms (computer, tablet, phone) nicely.  When I found that Github has a thing that allows static pages websites and that you can use Jekyll-Bootstrap to make the sites I was sold.  I had to figure out how to set this up and use it to start a tech blog to document all my tutorial finds, technology configuration wins, etc.</p>
+<p>This first post on the new blog will document how to set up the beast.  In the process of starting this I tried multiple tutorials on Jekyll-Bootstrap (and variations) as well as Pelican.  I liked the idea of Pelican since it is Python based and I know a little Python but in the end Jekyll-Bootstrap turned out to be the one that I managed to make work.  Getting this hosted on Github was a natural fit.</p>
+<p>Without further adieu, here is how I managed to make it work.  As always, your mileage may vary but if you have questions on the process documented here or ideas to improve the process please leave a comment!</p>
+<h1>Prepare Github</h1>
+<p><a href="http://github.com">Github</a> has a static web pages hosting service.  Through this service you can host static web sites, that would be sites that do not interact a lot with the user but simply display information.  If you want a simple blog this is a great way to go.  Add to that you can control your own content, develop your content locally and manage versions (through git) and you have a pretty great package.</p>
+<p>If you don't have a github account yet you will want to go <a href="http://github.com">here</a> and sign up for one. The accounts are free and afterwards you can put all kinds of projects under version control.  Do keep in mind that if you want an account that hides code (or blog articles) you will need a paid account.  If you want private repositories for code development you may want to try <a href="http://bitbucket.org">Bitbucket</a>.  Bitbucket allows git and mercurial repos but doesn't have the static webpage hosting service.</p>
+<p>Once you have your github account you will need a repository to host the blog.  Click the "Create a new repo" icon (top right hand side, next to your username). Name your repo something like USERNAME.github.com.  It turns out you can probably put most anything you want in for USERNAME but most examples use your github username, I know that works as that is what I did.</p>
+<p>At this point the repo isn't fully initialized - there are no files under version control (unless you chose to initialize it when creating by checking the "Initialize this repository with a README" box when creating the repo).  Doing it this way is probably the easiest as you don't end up with colliding repos.  Next you want to go to the Jekyll-Bootstrap startup page to get things going with Jekyll-Bootstrap.</p>
+<p>If none of this is working and you need a little help getting started or getting familiar with git, github has some great <a href="https://help.github.com">help pages</a>.  There are also some great tutorials for using git around the web, I started with the free one from <a href="http://codeschool.com/courses/try-git">Code School</a>.</p>
+<h1>Set up Jekyll-Bootstrap</h1>
+<p>Once you have your github repo set up it is time to head over to <a href="http://jekyllbootstrap.com">Jekyll Bootstrap</a>.  Jekyll Bootstrap is designed to get you up and running with a blog on github as fast as possible.  I have tried ruhoh (linked at the bottom of the JB front page) but that didn't really work well for me.  Jekyll Bootstrap had me up and running, theming and creating content very quickly.  My needs are simple, again, your mileage may vary.</p>
+<p>Click the "0 to Blog in 3 Minutes" button on the Jekyll Bootstrap page.  This will send you to a form that will start giving you code to enter into the command line to get JB set up.  If you put your github username in the box at the top of the page it will even customize the code for you.</p>
+<p>You will notice that step two involves some git commands - again, if you are not familiar with git you may want to do the tutorial linked above to get your head around git.  If you follow these steps exactly and have already initialized the repo with a README you may run into a problem when you try to push the local repo to github.</p>
+<pre><code>git push origin master
+</code></pre>
+<p>You will get an error stating that the repo on github's server is ahead of the repo on your local machine. You will need to do a pull, merge, then push:</p>
+<pre><code>git pull
+ git merge
+ git push origin master
+</code></pre>
+<p>That should set things straight again.</p>
+<p>I didn't bother with the "Run Jekyll locally" steps but if you want to (and are using Ubuntu) you will need to install a few things first:</p>
+<pre><code>sudo apt-get install ruby rubygems
+</code></pre>
+<p>I don't know enough ruby to say but after installing these it looks like installing other ruby packages is simply</p>
+<pre><code>gem install &lt;package&gt;
+</code></pre>
+<p>I found installing rake (kind of like make but for ruby packages as best I can tell) using the Ubuntu repos was helpful.</p>
+<pre><code>sudo apt-get install rake
+</code></pre>
+<h1>Creating posts</h1>
+<p>Obviously you made the blog to create posts.  Starting a post is really easy:</p>
+<pre><code>rake post title="Hello World"
+</code></pre>
+<p>This will create a markdown file in <code>_posts</code> directory with the date and post name followed by the markdown extension.  An example of what you will have:</p>
+<hr>
+<pre><code>layout: post
+title: "Hello World"
+description: ""
+category: ""
+tags: []
+</code></pre>
+<hr>
+<pre><code>{% include JB/setup %}
+</code></pre>
+<p>Now you will just need to edit that text file to finish the post.  Put in a short description of the post under "description:", add in a category and some tags to track it.  Finally the post will need some text.  Here is where you get to put your Markdown prowess to work.</p>
+<h2>So you say you don't know Markdown?</h2>
+<p>Say it ain't so!  Markdown is a fabulous text markup language that allows you to write your text in human readable form and then translate it into multiple formats.  Someday I will do a post extolling the virtue of <a href="http://johnmacfarlane.net/pandoc/">Pandoc</a> for making web pages, beamer slide shows and pdf documents out of markdown files.  For now though you don't need to worry about any of that - just need to learn enough Markdown to make a renderable post.</p>
+<p>Markdown text is all in plain text (can you say "easy grepping"?  I knew you could!) with a few symbols along the way to help you.  Precede your line of text with a hash mark (#) and you get a headline, increase the number of hash marks for decreasing levels of headlines:</p>
+<pre><code>#Heading 1
+ ##Heading 2
+ ###Heading 3
+</code></pre>
+<p>Want to make a list?  Do you need numbers with that?</p>
+<pre><code>1. Item one
+ 1. Item two
+ 1. Item three
+</code></pre>
+<p>Don't worry - the server will fix the numbering (getting an idea of how easy this is to use?).  If you don't need enumerated lists you just:</p>
+<pre><code>* Red
+ * Blue
+ * Yellow
+</code></pre>
+<p>There is much more to Markdown than this, head over to <a href="http://daringfireball.net/projects/markdown/basics">Daring Fireball</a> for more.  The beautiful thing about using Jekyll is that when you push your markdown files (in the <code>_posts</code> directory and with a <code>.md</code> or <code>.markdown</code> file extension) to github, their server will render the files into blog posts for you - magic!</p>
+<h1>Set up comments with Disqus</h1>
+<p>What is a blog without comments?  On a blog like this one I need comments because I am talking about how I do things - how else can people get further help or make suggestions to improve my processes without a form of comments?</p>
+<p>Jekyll allows for a number of possible comment engines.  Looking in the <code>_config.yml</code> file you see a section that looks like this:</p>
+<pre><code># Settings for comments helper
+ # Set 'provider' to the comment provider you want to use.
+ # Set 'provider' to false to turn commenting off globally.
+ #
+  comments :
+    provider : disqus
+  disqus :
+    short_name : yourdisqusshortname
+  livefyre :
+    site_id : 123
+  intensedebate :
+    account : 123abc
+  facebook :
+    appid : 123
+    num_posts: 5
+    width: 580
+    colorscheme: light
+</code></pre>
+<p>This blog uses <a href="http://disqus.com">Disqus</a> so to set up comments I went to their site and set up an account.  In setting things up I had to give the blog a name, give Disqus information about the blog (minimal) and set a short name.  When I had that I could put the shortname in the <code>_config.yml</code> file.  Next you will need to follow the link for setup instructions for "Universal Code".  This will give you a segment of html that you can place in your website pages to connect your Disqus comment account with the blog.  Put this block of code in your <code>_layouts/posts.html</code> file.  This file is a template that grabs code from various places, I simply copied the html from Disqus and pasted it at the bottom of the posts.html file, this places the Disqus comment box at the bottom of all post pages the site generates.</p>
+<h1>Checking the post to be sure it will render</h1>
+<p>Before you push this bad boy to the github servers you may want to check and be sure it is compiling correctly.  If you push a markdown page up to github and it isn't compiling correctly github simply won't make changes to your website and you will be stuck wondering what is going on (like I have been for the past hour or so).</p>
+<p>Checking this requires that you have Jekyll installed locally.  I decided to use the gems (I think of these like pip install commands in Python and assume you are getting the freshest packages that way).</p>
+<pre><code>sudo gem install jekyll
+</code></pre>
+<p>This install will take a few minutes as a few dependencies need to come along with the jekyll package.  When it is installed you can start a local jekyll instance with a server to see if your markdown compiles correctly.  You need to start this server from the directory that has the site in it:</p>
+<pre><code>cd /home/USERNAME/git-repos/USERNAME.github.com
+jekyll serve
+</code></pre>
+<p>If you get a lot of error messages you may want to parse through this output with a trace:</p>
+<pre><code>jekyll serve -trace | less
+</code></pre>
+<p>I made a few errors and each error takes up several lines so I piped the output through less so I could make changes.</p>
+<p>Once you have the markdown on your post correctly written you should see this when you start the server:</p>
+<pre><code>Configuration file: /home/USERNAME/git-repos/USERNAME.github.com/_config.yml
+            Source: /home/USERNAME/git-repos/USERNAME.github.com
+       Destination: /home/USERNAME/git-repos/USERNAME.github.com/_site
+      Generating... Maruku#to_s is deprecated and will be removed or changed in a near-future version of Maruku.
+done.
+    Server address: http://0.0.0.0:4000
+  Server running... press ctrl-c to stop.
+</code></pre>
+<p>Errors I had made:</p>
+<ol>
+<li>malformed URL (hope that will improve as I work with markdown more)</li>
+<li>not putting a <code>_config.yml</code> in backticks (the preceding underscore is a special character in markdown and needs to be escaped with backticks)</li>
+</ol>
+<p>Now you are ready to update the local repo, commit and push to github.</p>
+<h1>Getting the posts on the blog</h1>
+<p>One of the great things about this approach is you can use your tools on your computer and then push the content to github for hosting.  When you have your posts ready all you need to do is be sure the files are staged for commit:</p>
+<pre><code>git status
+</code></pre>
+<p>This will show you if there are files that are untracked in your local directory.  Add them with</p>
+<p>git add .</p>
+<p>Then commit and send to github:</p>
+<p>git commit -am "Commit message, make it something descriptive or you will be sorry later!"
+    git push origin master</p>
+<p>Note: the -a switch on <code>git commit</code> makes sure that all files that are tracked but have changed will also be committed, one of the annoyances of git (for a mercurial user) is that changed files have to be added this way in order to get them to still be tracked.</p>
+<h1>Conclusion</h1>
+<p>There is much more to Jekyll Bootstrap (themes, templates, Liquid, etc.), Markdown (tons of options to format the text, use Pandoc to make lots of different outputs, etc.), and Disqus (connect more blog and other sites for comments, control users, approve comments, etc.).  This should have you up and running with a blog pretty quickly though.  Now that you have something - go create!</p>
+
+  </div>
+
+  <!--
+  Uncomment the below when tags start working
+  <ul>
+    <li>
+        <a href="../../blog/tag/jekyll">
+          All posts tagged jekyll
+    <li>
+        <a href="../../blog/tag/disqus">
+          All posts tagged disqus
+    <li>
+        <a href="../../blog/tag/tutorial">
+          All posts tagged tutorial
+    
+</ul> 
+ -->
+<div class="comments">
+<div id="disqus_thread"></div>
+<script>
+  var disqus_config = function() { this.page.identifier = "/blog/setting-up-a-github-blog-using-jekyll-bootstrap-and-disqus"; };
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = '//forbajatotechblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>
+  Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript"
+    rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+</div>
+
+  </div>
+  </div>
+  <footer>
+    &copy; Copyright 2016 by Thomas C. Hicks.
+  </footer>
+</body>

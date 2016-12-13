@@ -1,0 +1,165 @@
+<!doctype html>
+<head>
+    <!--<link href="https://fonts.googleapis.com/css?family=Advent+Pro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <!-- <link rel="stylesheet" href="/css/bootstrap-theme.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../../static/style.css">
+</head>
+<meta charset="utf-8">
+
+<!-- <link rel="stylesheet" href="/css/bootstrap-theme.min.css"> -->
+<title>Favorite Vim Plugins — Forbajato Techblog</title>
+<body id="bgc">
+    <div class="navbar navbar-default navbar-fixed-top" id="bgc">
+      <div class="container">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> </button>
+      <a class="navbar-brand" href="#">ForbajatoTechblog</a>
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../blog/">Blog</a></li>
+        
+          <li><a href="../../projects/">Projects</a></li>
+        
+          <li><a href="../../about/">About</a></li>
+        
+      <!-- <li class="active"><a href="#home">Home</a></li>
+      <li class="active"><a href="#portfolio">Blog</a></li>
+      <li class="active"><a href="#about">About</a></li> -->
+      </ul></span>
+      <span class="icon-bar">
+      <!-- <ul class="nav navbar navbar-center">
+      <li><a href="http://www.gansugateway.com">Gansu Gateway</a></li>
+      </ul> --> </span>
+      <span class="icon-bar"></span>
+      </div>
+      <div class="navbar-header">
+      <div class="navbarcal-collapse collapse">
+      </div>
+      </div>
+  </div>
+<div class="container">
+  <header>
+      <div class="content">
+       <div class="row">
+       <div class="page-header-wrapper">
+       <div class="page-header">
+       <h1 id="headline">Welcome to Forbajato's Techblog!<small> Documenting tech wins and losses</small></h1>
+       </div>
+   </div>
+   </div>
+   </div>
+</div>
+<!--    <h1>Forbajato Techblog</h1>
+    <nav>
+      <ul class="nav navbar-nav">
+        <li><a href="../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../blog/">Blog</a></li>
+        
+          <li><a href="../../projects/">Projects</a></li>
+        
+          <li><a href="../../about/">About</a></li>
+        
+      </ul>
+  </nav> -->
+  </header>
+  <div class="container">
+  <div class="page">
+    
+  
+  <div class="blog-post">
+  
+    <h2>Favorite Vim Plugins</h2>
+  
+  <p class="meta">
+    written by
+    
+      Thomas C Hicks
+    
+    on 2013-12-31
+  </p>
+  <h1>Introduction</h1>
+<p>I love Vim.  You don't have to go too far on the internet to see that there are two raging camps out there.  I admit to never having tried emacs but, having spent so much time learning and tweaking vim I am unlikely to try it now.  What I like about vim:</p>
+<ol>
+<li>It gets out of my way - OK, there is a learning curve.  Once you get basic movement, search, copy and replace down though vim stays out of your way.  The screen is blank with a flashing cursor - nothing to distract.</li>
+<li>It is amazingly extensible - I suspect this is true for emacs as well.  I find that whenever I am doing a task repeatedly there is either an easy way to automate it in vim or someone has already written a plugin to make it faster.</li>
+<li>Vi is everywhere - most all Linux based systems will have some form of Vi installed by default.  Vim builds on Vi but knowing the Vim basics means I can administer systems that have just started up easily and using familiar keybindings.</li>
+</ol>
+<p>As great as Vim is there are things it doesn't do easily, that is where plugins come in.  I have never written a plugin myself but since there are so many smart people out there who make their plugins available I haven't needed to write anything from scratch.  Following is a list of my most used plugins.</p>
+<h1>Pathogen - where it all should begin</h1>
+<p>Getting Vim plugins to work is not generally difficult but sometimes there are a number of files that have to be put in the correct spots in the file tree.  Along came <a href="https://github.com/tpope/vim-pathogen">Pathogen</a>.  This amazing little plugin allows you to install and manage plugins for Vim in their own private directories.  After a bit of configuring (see the Pathogen git repo for instructions) installing a plugin (like, say NerdTree) is simple:</p>
+<pre><code>cd ~/.vim/bundle
+git clone https://github.com/scrooloose/nerdrtee.git
+</code></pre>
+<p>Simple!</p>
+<h1>Plugins I installed using Pathogen</h1>
+<p>Before I discovered Pathogen I installed a few plugins and will discuss those below but first let's deal with the Pathogen managed plugins.</p>
+<h2>Multiple Search 2</h2>
+<p>Ever wish you could do a search for a term then search a different term without loosing the highlighting on the first term?  If not, move on, nothing to see here - but if so, checkout <a href="https://github.com/vim-scripts/MultipleSearch2.vim">MultipleSearch2</a>.  Really handy if you need to do multiple searches through your document and keep them both accessible.</p>
+<h2>Nerd Commenter</h2>
+<p>Sometimes when you are coding you need to comment out something for the purposes of debugging.  I know when I run tests I just need to get some pesky code out of the way to see where things are going wrong.</p>
+<p>Enter <a href="https://github.com/scrooloose/nerdcommenter">NerdCommenter</a> - highlight some text you want commented, hit a quick key combination and you have commented out your code.  This thing even knows how to comment out different types of code!  I use this every coding session.</p>
+<h2>Nerd Tree</h2>
+<p>OK, you are editing some code, building your killer Django app and you realize you need to check the model (does that ever happen to anyone else?).  If the directory tree is simple you can just open the file you need but if it is a complicated directory tree using a tree navigator can be really helpful.  <a href="https://github.com/scrooloose/nerdtree">NerdTree</a> fits the bill.</p>
+<h2>Tagbar</h2>
+<p>Sometimes I need to move through my code quickly to find a class, function, variable, etc.  Folds can help with this but wouldn't it be nice if something could keep track for you automatically?  <a href="https://github.com/majutsushi/tagbar">Tagbar</a> opens a window (on the right by default) with a list of the code tags in your file, move up and down the window to jump directly to the class, function, etc. you need to edit.</p>
+<h2>Snipmate</h2>
+<p>While I haven't used this in coding much (I do a lot of python coding and don't find a need for this there) I do use it in writing papers, developing slides and writing tests in LaTeX.  <a href="https://github.com/msanders/snipmate.vim">SnipMate</a> has a host of predefined code snipits that it can insert into your text with a simple command.  When you are writing slide environments for beamer or doing test questions for eqexam (LaTeX plugins) this can save lots of time, also helps to ensure I get the tags correct when I have not used the language for a while.</p>
+<h2>Vim-Surround</h2>
+<p>Like snipmate this one is designed to get you coding quickly.  Anyone who does html will benefit from this - <a href="https://github.com/tpope/vim-surround">Vim-Surround</a> will simple surround your highlighted text with a particular tag.</p>
+<h1>Essential non-pathogen plugins</h1>
+<p>I came late to the pathogen party so I have a few plugins I still use from before.  It may be that these are usable as pathogen plugins now but I installed the manually.</p>
+<h2><a href="http://www.vim.org/scripts/script.php?script_id=790">Python.vim</a></h2>
+<p>Most programming languages have their own plugins to help with syntax highlighting, code testing, etc.  Python is no different.</p>
+<h2><a href="https://github.com/vim-scripts/potwiki.vim">Potwiki</a></h2>
+<p>Ever wanted to turn Vim into a text based wiki?  This one will handle it for you!</p>
+<h2><a href="https://github.com/vim-scripts/TaskList.vim">Tasklist</a></h2>
+<p>Add GTD like task list support to your text based wiki and you have a powerful productivity tool (remember - greater productivity means more time for Steam games).</p>
+<p>There you have it - my favorite and most used Vim plugins.  There are tons more, if I missed one that you particularly love make your case for it in the comments!</p>
+
+  </div>
+
+  <!--
+  Uncomment the below when tags start working
+  <ul>
+    <li>
+        <a href="../../blog/tag/vim">
+          All posts tagged vim
+    <li>
+        <a href="../../blog/tag/programming">
+          All posts tagged programming
+    <li>
+        <a href="../../blog/tag/plugins">
+          All posts tagged plugins
+    
+</ul> 
+ -->
+<div class="comments">
+<div id="disqus_thread"></div>
+<script>
+  var disqus_config = function() { this.page.identifier = "/blog/favorite-vim-plugins"; };
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = '//forbajatotechblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>
+  Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript"
+    rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+</div>
+
+  </div>
+  </div>
+  <footer>
+    &copy; Copyright 2016 by Thomas C. Hicks.
+  </footer>
+</body>

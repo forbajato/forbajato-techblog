@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css?family=Advent+Pro|Open+Sans');
+
+.page-header-wrapper {
+  font-family: 'Advent Pro', sans-serif;
+}
+
+.page-header h1 {
+  margin-bottom: 0;
+  margin-top: 60px;
+  line-height: 1;
+}
+
+h1 {
+  font-family: 'Advent Pro', sans-serif;
+  text-rendering: optimizeLegibility;
+  font-weight: normal;
+  color: #eee;
+  }
+
+h2 {
+  font-family: "Advent Pro", sans-serif;
+  text-rendering: optimizeLegibility;
+  font-weight: normal;
+  color: #eee;
+}
+
+ol, li {
+    color: #eee;
+}
+
+h1 small {
+  font-size: 18px;
+}
+
+p, ul {
+  font-family: "Open Sans", sans-serif;
+  text-rendering: optimizeLegibility;
+  font-style: normal;
+  color: #c8c8d0;
+  }
+
+#bgc {
+  background: #2f2f2f;
+}
+
+#headline {
+  color: #eee;
+}
+
+#code {
+  background-color: #00000;
+  font-color: #00cc00;
+}

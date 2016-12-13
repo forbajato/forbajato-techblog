@@ -1,0 +1,196 @@
+<!doctype html>
+<head>
+    <!--<link href="https://fonts.googleapis.com/css?family=Advent+Pro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <!-- <link rel="stylesheet" href="/css/bootstrap-theme.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../../static/style.css">
+</head>
+<meta charset="utf-8">
+
+<!-- <link rel="stylesheet" href="/css/bootstrap-theme.min.css"> -->
+<title>Setting up an Nginx server on RaspberryPi — Forbajato Techblog</title>
+<body id="bgc">
+    <div class="navbar navbar-default navbar-fixed-top" id="bgc">
+      <div class="container">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> </button>
+      <a class="navbar-brand" href="#">ForbajatoTechblog</a>
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../blog/">Blog</a></li>
+        
+          <li><a href="../../projects/">Projects</a></li>
+        
+          <li><a href="../../about/">About</a></li>
+        
+      <!-- <li class="active"><a href="#home">Home</a></li>
+      <li class="active"><a href="#portfolio">Blog</a></li>
+      <li class="active"><a href="#about">About</a></li> -->
+      </ul></span>
+      <span class="icon-bar">
+      <!-- <ul class="nav navbar navbar-center">
+      <li><a href="http://www.gansugateway.com">Gansu Gateway</a></li>
+      </ul> --> </span>
+      <span class="icon-bar"></span>
+      </div>
+      <div class="navbar-header">
+      <div class="navbarcal-collapse collapse">
+      </div>
+      </div>
+  </div>
+<div class="container">
+  <header>
+      <div class="content">
+       <div class="row">
+       <div class="page-header-wrapper">
+       <div class="page-header">
+       <h1 id="headline">Welcome to Forbajato's Techblog!<small> Documenting tech wins and losses</small></h1>
+       </div>
+   </div>
+   </div>
+   </div>
+</div>
+<!--    <h1>Forbajato Techblog</h1>
+    <nav>
+      <ul class="nav navbar-nav">
+        <li><a href="../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../blog/">Blog</a></li>
+        
+          <li><a href="../../projects/">Projects</a></li>
+        
+          <li><a href="../../about/">About</a></li>
+        
+      </ul>
+  </nav> -->
+  </header>
+  <div class="container">
+  <div class="page">
+    
+  
+  <div class="blog-post">
+  
+    <h2>Setting up an Nginx server on RaspberryPi</h2>
+  
+  <p class="meta">
+    written by
+    
+      Thomas C Hicks
+    
+    on 2014-01-20
+  </p>
+  <h1>Introduction</h1>
+<p>I don't know how he knew I would love this but my nephew got me a raspberry pi for Christmas.  I have been working on my VPS and want to deploy a webserver on it but am a little reticent to deploy to the Internet without experimenting in a safe environment first.  The RPi solves this problem very neatly - just install Raspbian, fire up a package manager to install nginx and off we go!</p>
+<h1>Goals</h1>
+<ol>
+<li>Install and configure Raspbian.</li>
+<li>Install nginx webserver on RPi.</li>
+<li>Set up RPi server to host static pages blog.</li>
+<li>Set up local computer to deploy static pages blog to RPi server.</li>
+</ol>
+<h1>Install and configure Raspbian</h1>
+<p>Start by downloading the Raspbian distro from <a href="http://www.raspberrypi.org/downloads">here</a>.  Page down until you see the Raspbian section, it has a link for both a direct download of the image file and a link for the torrent.  I went with the torrent so I could help seed the distro afterwards (gotta be a good netizen!).  If you are a total newbie to Linux and Raspberry Pi you may want to go with the NOOBS install - it will enable you to choose which distro to install and even change it later.  I know my VPS, which I am trying to model, runs Ubuntu so I don't need to mess around with the other versions of the RPi operating systems and went straight with the Raspbian.</p>
+<p>Get your SD card ready - I used gparted to clear out an 8G SD card, you will need at least a 4G card to install Raspbian and have something workable to run it afterwards.</p>
+<p>Flash the SD card with the Raspbian image.  This is simple in Linux:</p>
+<p><code>$sudo dd bs=4M if=./raspbian.img of=/dev/location_of_the_sd_card</code></p>
+<p>Replace the <code>./raspbian.img</code> with the path to and name of the image file, replace <code>location_of_the_sd_card</code> with the spot where the SD card is in your system.  In Linux you can find this by plugging in the SD card and then doing <code>dmesg</code> in the terminal, it will show you where the SD card went in your file system (for me it was <code>/dev/mmcblk0</code>).  This process may take a minute or two.  When it is finished you are ready to fire up your RPi.</p>
+<p>Insert the newly flashed SD card into the RPi, plug in the video (either using composite to the TV or the HDMI cable), a keyboard and (ideally) an ethernet cable or wireless USB card.  Finally plug in the power supply to boot up the RPi.</p>
+<p>On first boot Raspbian will run raspi-config, a tool to get things up and running quickly.  Your user name will be <code>pi</code> and the password will be <code>raspberry</code>, this user has sudo access.</p>
+<p>First you will want to expand the filesystem.  When you flashed the SD card you only installed a boot and system partition, there may well be lots of SD card that is not being used, you don't want it going to waste!</p>
+<p>Next you can work through the various options on the rasp-config screen - reseting the password (the pi user has admin access so you will not want to leave that user with the default password if this thing is going to be exposed to the Internet), setting up networking, etc.  There are even options to set the machine to boot to an X server or directly to Scratch - I will have to come back an play with those sometime.  One thing you want to be sure to set up is the SSH server, once that is done you can administer the RPi from any with an ssh client - i.e. you won't need the mouse, keyboard and monitor (or TV in my case) anymore.</p>
+<p>After everything is set up the first thing to do is to update the sources so you can get to installing things.</p>
+<p><code>$sudo apt-get update</code></p>
+<h1>Install nginx webserver on RPi.</h1>
+<p>To use this as a webserver we will need to install one, there are several choices but we are only hosting static pages on this so nginx is a good choice.  Nginx seems pretty simple without too much to get it up and running yet hefty enough to handle huge loads without blinking.</p>
+<p>First install the server:</p>
+<p><code>$sudo apt-get install nginx</code></p>
+<p>If you installed from the Raspbian repos you already have the www-data user and www-data group.  To be sure (or if you installed in another way):</p>
+<pre><code>$sudo useradd www-data
+$sudo groupadd www-data
+$sudo usermod -g www-data www-data
+</code></pre>
+<p>Now you need to check the nginx configuration files - I made a copy before I started messing with this, always a good idea to have a back up just in case you do something ... ill-advised (aka, "stupid").  The first config file to adjust is /etc/nginx/sites-enabled/default.  If you are not using IPV6 you will need to comment out (add a <code>#</code> sign to the beginning of the line) the line that looks like:</p>
+<pre><code>listen   [::]:80 default_server ipv6only=on;
+</code></pre>
+<p>My file started with both this and the line above it commented out, I uncommented (removed the <code>#</code>) the line above it <code>listen 80;</code> so that the server knew where to listen.</p>
+<p>Next you will need to set up where you are going to put your website files.  I plan to use a subdirectory of the pi user <code>/srv/web</code> but nginx comes ready to use <code>/usr/share/nginx/www</code>, I am not sure of the advantage of this approach, will look into it and may end up changing my set up in the future.  For now we are just wanting to get things running so you need to make a change to the default file to add the following line:</p>
+<pre><code>root /home/pi/srv/web;
+</code></pre>
+<p>You will also want to comment out (put a <code>#</code> at the beginning) the line that says:</p>
+<pre><code>root /usr/share/nginx/www;
+</code></pre>
+<p>Now you need some stuff in /var/www and you need to be sure that directory belongs to the proper user.  First make the directory:</p>
+<pre><code>$cd /var
+$sudo mkdir www
+$sudo chown www-data:www-data www/
+</code></pre>
+<p>Now you need something in that directory to serve so you can test things out.  Fire up a text editor and write some simple HTML, save it as <code>index.html</code> in the <code>/var/www</code> directory.  Finally start up the nginx server:</p>
+<pre><code>$sudo service nginx start
+</code></pre>
+<p>If you don't already know the RPi's IP address issue this at the command line:</p>
+<pre><code>$ifconfig
+</code></pre>
+<p>In the block eth0 (if you have an ethernet cable connected to the RPi) or the wlan0 (if your RPi is using wireless) will have an IP address, you will use that to test the server.  From another computer on your network simply point the browser at the IP address of your RPi and you should see the webpage you just created.  If so, so far so good!</p>
+<p>Much thanks to the tutorial <a href="http://en.joscandreu.com/blog/install-nginx-on-raspberry-pi/">here</a> which is a great resource for doing this little project.  Also the <a href="https://library.linode.com/web-servers/nginx/installation/debian-6-squeeze#sph_installing-nginx-from-debian-packages">Linode</a> documentation was invaluable.</p>
+<h1>Deploying the pages</h1>
+<p>Now you have your server set up, all it needs is some content.  I fiddled around with using git to publish (like I do to post to github) but it turns out to be a bit complicated.  Turns out good 'ole rsync can send files over to the RPi just fine with a simple</p>
+<pre><code>$rsync -avx "_site/" pi@rpi_ip_address:/home/pi/srv/web/
+</code></pre>
+<p>You can even automated it with rake by setting a new rake task.  All you have to do is edit your Rakefile (I have one for making new posts, pages, etc. in my git repo directory where the source files for the static blog live) to include the following (doesn't seem to matter where you put it in the file):</p>
+<pre><code>desc "rsync the contents of _site directory to the raspberry pi"
+task :syncpi do
+     puts '* Publishing files to RaspberryPi'
+      puts `rsync -avz "_site/" pi@rpi_ip_address:/home/pi/srv/web/`
+end
+</code></pre>
+<p>Those are backticks around the rsync command.  Now to post your blog all you have to do is fire up Jekyll's server, let it make the <code>_site/</code> directory, then do a <code>rake syncpi</code> to send it to the RPi for hosting.</p>
+<p>Thanks to <a href="http://arjanvandergaag.nl/blog/publishing-a-jekyll-website-to-a-server.html">this blogger</a> for help with the rsync and rake file tips on posting.</p>
+
+  </div>
+
+  <!--
+  Uncomment the below when tags start working
+  <ul>
+    <li>
+        <a href="../../blog/tag/raspberrypi">
+          All posts tagged raspberrypi
+    <li>
+        <a href="../../blog/tag/nginx">
+          All posts tagged nginx
+    <li>
+        <a href="../../blog/tag/sysadmin">
+          All posts tagged sysadmin
+    <li>
+        <a href="../../blog/tag/diy">
+          All posts tagged diy
+    
+</ul> 
+ -->
+<div class="comments">
+<div id="disqus_thread"></div>
+<script>
+  var disqus_config = function() { this.page.identifier = "/blog/setting-up-an-nginx-server-on-raspberrypi"; };
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = '//forbajatotechblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>
+  Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript"
+    rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+</div>
+
+  </div>
+  </div>
+  <footer>
+    &copy; Copyright 2016 by Thomas C. Hicks.
+  </footer>
+</body>

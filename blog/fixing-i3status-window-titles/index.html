@@ -1,0 +1,148 @@
+<!doctype html>
+<head>
+    <!--<link href="https://fonts.googleapis.com/css?family=Advent+Pro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <!-- <link rel="stylesheet" href="/css/bootstrap-theme.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../../static/style.css">
+</head>
+<meta charset="utf-8">
+
+<!-- <link rel="stylesheet" href="/css/bootstrap-theme.min.css"> -->
+<title>Fixing i3status window titles — Forbajato Techblog</title>
+<body id="bgc">
+    <div class="navbar navbar-default navbar-fixed-top" id="bgc">
+      <div class="container">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> </button>
+      <a class="navbar-brand" href="#">ForbajatoTechblog</a>
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../blog/">Blog</a></li>
+        
+          <li><a href="../../projects/">Projects</a></li>
+        
+          <li><a href="../../about/">About</a></li>
+        
+      <!-- <li class="active"><a href="#home">Home</a></li>
+      <li class="active"><a href="#portfolio">Blog</a></li>
+      <li class="active"><a href="#about">About</a></li> -->
+      </ul></span>
+      <span class="icon-bar">
+      <!-- <ul class="nav navbar navbar-center">
+      <li><a href="http://www.gansugateway.com">Gansu Gateway</a></li>
+      </ul> --> </span>
+      <span class="icon-bar"></span>
+      </div>
+      <div class="navbar-header">
+      <div class="navbarcal-collapse collapse">
+      </div>
+      </div>
+  </div>
+<div class="container">
+  <header>
+      <div class="content">
+       <div class="row">
+       <div class="page-header-wrapper">
+       <div class="page-header">
+       <h1 id="headline">Welcome to Forbajato's Techblog!<small> Documenting tech wins and losses</small></h1>
+       </div>
+   </div>
+   </div>
+   </div>
+</div>
+<!--    <h1>Forbajato Techblog</h1>
+    <nav>
+      <ul class="nav navbar-nav">
+        <li><a href="../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../blog/">Blog</a></li>
+        
+          <li><a href="../../projects/">Projects</a></li>
+        
+          <li><a href="../../about/">About</a></li>
+        
+      </ul>
+  </nav> -->
+  </header>
+  <div class="container">
+  <div class="page">
+    
+  
+  <div class="blog-post">
+  
+    <h2>Fixing i3status window titles</h2>
+  
+  <p class="meta">
+    written by
+    
+      Thomas C Hicks
+    
+    on 2014-01-28
+  </p>
+  <h1>Everything is configurable</h1>
+<p>i3 allows you to configure and change pretty much everything. I am still loving using the window manager and have found it can make my work flow faster and much more efficiently.  Ran across <a href="http://xpressrazor.wordpress.com/2014/01/27/introduction-to-i3/">this post</a> with some more tips on using and customizing i3.</p>
+<h1>i3status</h1>
+<p>i3status is documented separately from the normal i3 config, check <code>man i3status</code> for the man page.  You can change what items are on the status line through the config file (located at <code>/etc/i3status.conf</code>).  You can change how it appears in the normal i3 conf file though - located at <code>.i3/conf</code>.  I made a few changes to the <code>bar</code> section of the i3 configuration file:</p>
+<pre><code>bar {
+    status_command i3status
+    font pango:Droid Sans, Ioicons, FontAwesome 8
+    colors {
+        background #000000
+        statusline #33aaff
+        focused_workspace #11aaff #005500
+        active_workspace #11aaff #005500
+        urgent_workspace #ffffff #990000
+        }
+}
+</code></pre>
+<h1>Even change the window title fonts!</h1>
+<p>OK, so this isn't really hidden but up in the <code>.i3/config</code> there is a section that defines the font for the window titles.  Look for the <code># Font for window titles</code> section.  I changed the font line to give me Verdana font for my window titles:</p>
+<pre><code>font pango:Verdana 10
+</code></pre>
+<p>Nothing to it!</p>
+
+  </div>
+
+  <!--
+  Uncomment the below when tags start working
+  <ul>
+    <li>
+        <a href="../../blog/tag/window managers">
+          All posts tagged window managers
+    <li>
+        <a href="../../blog/tag/i3">
+          All posts tagged i3
+    <li>
+        <a href="../../blog/tag/challenge">
+          All posts tagged challenge
+    
+</ul> 
+ -->
+<div class="comments">
+<div id="disqus_thread"></div>
+<script>
+  var disqus_config = function() { this.page.identifier = "/blog/fixing-i3status-window-titles"; };
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = '//forbajatotechblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>
+  Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript"
+    rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+</div>
+
+  </div>
+  </div>
+  <footer>
+    &copy; Copyright 2016 by Thomas C. Hicks.
+  </footer>
+</body>

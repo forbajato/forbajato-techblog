@@ -1,0 +1,151 @@
+<!doctype html>
+<head>
+    <!--<link href="https://fonts.googleapis.com/css?family=Advent+Pro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <!-- <link rel="stylesheet" href="/css/bootstrap-theme.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../../static/style.css">
+</head>
+<meta charset="utf-8">
+
+<!-- <link rel="stylesheet" href="/css/bootstrap-theme.min.css"> -->
+<title>Poor man&#39;s VPN — Forbajato Techblog</title>
+<body id="bgc">
+    <div class="navbar navbar-default navbar-fixed-top" id="bgc">
+      <div class="container">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> </button>
+      <a class="navbar-brand" href="#">ForbajatoTechblog</a>
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../blog/">Blog</a></li>
+        
+          <li><a href="../../projects/">Projects</a></li>
+        
+          <li><a href="../../about/">About</a></li>
+        
+      <!-- <li class="active"><a href="#home">Home</a></li>
+      <li class="active"><a href="#portfolio">Blog</a></li>
+      <li class="active"><a href="#about">About</a></li> -->
+      </ul></span>
+      <span class="icon-bar">
+      <!-- <ul class="nav navbar navbar-center">
+      <li><a href="http://www.gansugateway.com">Gansu Gateway</a></li>
+      </ul> --> </span>
+      <span class="icon-bar"></span>
+      </div>
+      <div class="navbar-header">
+      <div class="navbarcal-collapse collapse">
+      </div>
+      </div>
+  </div>
+<div class="container">
+  <header>
+      <div class="content">
+       <div class="row">
+       <div class="page-header-wrapper">
+       <div class="page-header">
+       <h1 id="headline">Welcome to Forbajato's Techblog!<small> Documenting tech wins and losses</small></h1>
+       </div>
+   </div>
+   </div>
+   </div>
+</div>
+<!--    <h1>Forbajato Techblog</h1>
+    <nav>
+      <ul class="nav navbar-nav">
+        <li><a href="../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../blog/">Blog</a></li>
+        
+          <li><a href="../../projects/">Projects</a></li>
+        
+          <li><a href="../../about/">About</a></li>
+        
+      </ul>
+  </nav> -->
+  </header>
+  <div class="container">
+  <div class="page">
+    
+  
+  <div class="blog-post">
+  
+    <h2>Poor man&#39;s VPN</h2>
+  
+  <p class="meta">
+    written by
+    
+      Thomas C Hicks
+    
+    on 2014-08-25
+  </p>
+  <h1>Why would you want a tunnel anyway?</h1>
+<p>Tunnels are great, they are mysterious, they can be a little scary.  Of course we are not talking about train tunnels or roadway tunnels but ssh tunnels here.  In our kind of tunnels the goal is to send network packets through the tunnel from your computer to a website and then get the responses back.  VPNs can accomplish this nicely with really high level encryption, ssh can do something similar but with slightly less encryption.</p>
+<h1>Materials</h1>
+<p>To do this you will need a Linux computer with ssh capbabilities and a server somewhere (I use a Linode server for this).  We will set up the tunnel to the server and then set Firefox to point to the local tunnel as a proxy. Let's get going.</p>
+<h1>Start the ssh tunnel</h1>
+<p>The basics here are easy, say your external server is at ip address <code>11.11.11.11</code> and you have a user account on that server with username <code>me</code>.  Now you want to start a tunnel.  All you need to do is start an ssh session with your server and bind that session to a local port:</p>
+<pre><code>ssh -D 12345 me@11.11.11.11
+</code></pre>
+<p>Of course the <code>ssh</code> starts the ssh connection.  The <code>-D</code> is really cool - it binds the connection on the remote server to the numbered port listed next (in this case "12345").  After you do this, when you try to connect to localhost on port 12345 all the traffic will be sent down the tunnel to the remote server.  Since you are doing this over ssh the tunnel is secure.</p>
+<h1>Point Firefox at the newly created proxy server</h1>
+<p>Firefox is happy to send its traffic anywhere you would like.  Normally it just follows the rules on your system or router but this is a special case where you want to send that traffic out the tunnel.  To do that you have to make some changes in Firefox.</p>
+<p>Open the Preferences dialog window (Edit&gt;Preferences or click "Preferences" from the menu button usually in the top right of the Firefox window). Choose the "Advanced" tab and click on the "Network" tab.  The dialog you see will look like the photo below.</p>
+<p><img src="../../static/PreferencesAdvancedNetwork.png" alt="Network Settings Tab"></p>
+<p>Click the "Settings" button.  The new dialog will look like the screenshot below:</p>
+<p><img src="../../static/PreferencesAdvancedNetworkSettings.png" alt="Network Settings Dialog"></p>
+<p>Select the "Manual proxy configuration" radio button, the boxes under it will be come active.  In the 'SOCKS Host" box put <code>127.0.0.1</code> and make the corresponding port <code>12345</code>.  Make sure the <code>SOCKS v5</code> radio button is selected.</p>
+<p>For a lot of things this may work.  The problem is you can run into DNS settings on some networks (or in some countries) where the DNS servers are hijacked and return gibberish when you try to connect to a disallowed service.  To make sure all the DNS traffic goes through the tunnel you need one more step.</p>
+<h1>Edit about:config preferences (que lightening strike and ominous music)</h1>
+<p>Firefox knows that editing the about:config preferences can do some major damage so it will warn you that this will void your warranty (you know the warranty you signed when you started using open source software?  You mean you didn't sign it?!? I guess you can forge ahead risk taker!). Click the <code>I'll be careful, I promise</code> button.</p>
+<p>The page that loads is a confusing array of options for controlling how Firefox works - remember all those options with your former closed source software? No?  Probably because they weren't there.  With great power though, comes great responsibility, seriously, be careful with this.</p>
+<p>In the search bar at the top enter "dns" - you should get a much shorter list of options.  The one you are looking for is <code>network.proxy.socks_remote_dns</code>, if you haven't done anything crazy to your system in the past it should have a Status of <code>default</code>, a Type of <code>boolean</code>, and a Value of <code>false</code>.  All we need to do is change the Value to <code>True</code> - do this by double clicking where it says <code>False</code> - the line will turn bold and the Value will change to <code>True</code>.</p>
+<p>Now, supposedly you don't have to restart Firefox after you make these changes but I have better luck if I do a restart.  Once you restart Firefox you will be surfing through the tunnel (or is the correct term 'pipe' when you are talking surfing?).</p>
+<p>When you are ready to close the tunnel simply disconnect from the ssh connection and you are back to the original configuration.  You will have to move your Firefox back to "No Proxy" in the Preferences&gt;Advanced&gt;Network&gt;Settings screen once you close the tunnel.  This can be automated by setting up a Firefox profile with the required proxy settings that can be run when you are using the tunnel, then run regular Firefox (i.e. no proxy settings) when you want to use the normal connection.</p>
+<p>This is basically just the steps I took to do this while following a far more complete tutorial <a href="https://www.linode.com/docs/networking/ssh/setting-up-an-ssh-tunnel-with-your-linode-for-safe-browsing">here</a>.</p>
+
+  </div>
+
+  <!--
+  Uncomment the below when tags start working
+  <ul>
+    <li>
+        <a href="../../blog/tag/blog">
+          All posts tagged blog
+    <li>
+        <a href="../../blog/tag/security">
+          All posts tagged security
+    <li>
+        <a href="../../blog/tag/networking">
+          All posts tagged networking
+    
+</ul> 
+ -->
+<div class="comments">
+<div id="disqus_thread"></div>
+<script>
+  var disqus_config = function() { this.page.identifier = "/blog/poor-mans-vpn"; };
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = '//forbajatotechblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>
+  Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript"
+    rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+</div>
+
+  </div>
+  </div>
+  <footer>
+    &copy; Copyright 2016 by Thomas C. Hicks.
+  </footer>
+</body>

@@ -1,0 +1,186 @@
+<!doctype html>
+<head>
+    <!--<link href="https://fonts.googleapis.com/css?family=Advent+Pro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <!-- <link rel="stylesheet" href="/css/bootstrap-theme.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../../static/style.css">
+</head>
+<meta charset="utf-8">
+
+<!-- <link rel="stylesheet" href="/css/bootstrap-theme.min.css"> -->
+<title>Ipython Debugging — Forbajato Techblog</title>
+<body id="bgc">
+    <div class="navbar navbar-default navbar-fixed-top" id="bgc">
+      <div class="container">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> </button>
+      <a class="navbar-brand" href="#">ForbajatoTechblog</a>
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../blog/">Blog</a></li>
+        
+          <li><a href="../../projects/">Projects</a></li>
+        
+          <li><a href="../../about/">About</a></li>
+        
+      <!-- <li class="active"><a href="#home">Home</a></li>
+      <li class="active"><a href="#portfolio">Blog</a></li>
+      <li class="active"><a href="#about">About</a></li> -->
+      </ul></span>
+      <span class="icon-bar">
+      <!-- <ul class="nav navbar navbar-center">
+      <li><a href="http://www.gansugateway.com">Gansu Gateway</a></li>
+      </ul> --> </span>
+      <span class="icon-bar"></span>
+      </div>
+      <div class="navbar-header">
+      <div class="navbarcal-collapse collapse">
+      </div>
+      </div>
+  </div>
+<div class="container">
+  <header>
+      <div class="content">
+       <div class="row">
+       <div class="page-header-wrapper">
+       <div class="page-header">
+       <h1 id="headline">Welcome to Forbajato's Techblog!<small> Documenting tech wins and losses</small></h1>
+       </div>
+   </div>
+   </div>
+   </div>
+</div>
+<!--    <h1>Forbajato Techblog</h1>
+    <nav>
+      <ul class="nav navbar-nav">
+        <li><a href="../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../blog/">Blog</a></li>
+        
+          <li><a href="../../projects/">Projects</a></li>
+        
+          <li><a href="../../about/">About</a></li>
+        
+      </ul>
+  </nav> -->
+  </header>
+  <div class="container">
+  <div class="page">
+    
+  
+  <div class="blog-post">
+  
+    <h2>Ipython Debugging</h2>
+  
+  <p class="meta">
+    written by
+    
+      Thomas C Hicks
+    
+    on 2014-03-30
+  </p>
+  <p>Ever write a bit of quick code and then run it in your interpreter only to find it error out?  How do you go about debugging?  I generally look at the output, wish I understood it better and then start putting in print statements so I can figure out what is going on at various places in the code.  What if there was a better way?  I had heard about this python debugger (pdb) but had never really understood what it did.  Mike Driscoll, of the Mouse vs. Python blog, has done an awesome job explaining the python debugger (you can check it out <a href="http://www.blog.pythonlibrary.org/2014/03/19/pytho-101-an-introduction-to-pythons-debugger/">here</a>). Only problem - I use Ipython so what does this mean to me?</p>
+<p>Ipython employs magic commands to do a number of functions, debugging is one of them.  For instance, say you have the same silly code from Driscoll's article:</p>
+<pre><code>def doubler(a):
+    result = a*2
+    print result
+    return result
+
+def main():
+    """"""
+    for i in range(1,10):
+        doubler(i)
+
+if __name__ == "__main__":
+    print my_result
+    main()
+</code></pre>
+<p>OK, I changed the code a bit so that we would throw an exception to demonstrate the %debug magic word.  Run the code in the ipython interpreter:</p>
+<pre><code>%run debug_test.py
+</code></pre>
+<p>If you do this you will get an error like so:</p>
+<pre><code>NameError                                 Traceback (most recent call last)
+/usr/lib/python2.7/dist-packages/IPython/utils/py3compat.pyc in execfile(fname, *where)
+    176             else:
+    177                 filename = fname
+--&gt; 178             __builtin__.execfile(filename, *where)
+
+/home/forbajato/pdb_learning/debug_test.py in &lt;module&gt;()
+     13
+     14 if __name__ == "__main__":
+---&gt; 15         print my_result
+     16         main()
+     17
+
+NameError: name 'my_result' is not defined
+</code></pre>
+<p>This is a trivial example and the error is likely obvious but if it wasn't you could use the %debug magic word to figure things out:</p>
+<pre><code>None
+&gt; /home/forbajato/pdb_learning/debug_test.py(15)&lt;module&gt;()
+     14 if __name__ == "__main__":
+---&gt; 15         print my_result
+     16         main()
+</code></pre>
+<p>Now you have an arrow pointing to the line with the error in it and a line showing the offending line (that is what that <code>debug_test.py(15)</code> means).  The debugger doesn't reproduce the entire trace of the error - that is helpful to me since I figure the standard library (the part pointed to by the <code>/usr/lib/pyth...</code> line) is OK and I don't need to change it much.  Now all I have to do is fix that line, in this case we will delete it.</p>
+<p>Now when I do a <code>%run debug_test.py</code> I everything works great.  What if I wanted to step through it one step at a time.  This could be helpful if the errors are complicated and I need to see the code piece by piece or, alternatively, if the code is someone else's and I am trying to figure out what it does.  Stepping through code line by line can be both useful to debug and educational to study.</p>
+<p>To run through the code step by step you can just tell the <code>%run</code> magic command to help you with that:</p>
+<pre><code>%run -d debug_test.py
+</code></pre>
+<p>This output will work through the file line by line, putting an arrow at the line currently under execution and showing it to you.  The first line outputs something like this:</p>
+<pre><code>&gt; /home/forbajato/pdb_learning/debug_test.py(3)&lt;module&gt;()
+       2
+1---&gt; 3 def doubler(a):
+      4         """"""
+</code></pre>
+<p>Now you can see that the first function, doubler, is being called.  Go to the next line to execute by entering <code>n</code> in the <code>ipdb&gt;</code> prompt.  All you have to do is work your way through all the steps until you see the total execution.</p>
+<p>Other useful commands for the ipython debugger are jump (j) and quit (q).  With jump (enter a <code>j</code> instead of a <code>n</code> at the <code>ipdb&gt;</code> prompt) allows you to go to a specific line of code to execute next.  For instance entering <code>ipdb&gt;j 15</code> allows you to jump down to the business end of the <code>if __name__ == "__main__":</code> section and move on from there.</p>
+<p>There is lots more to learn about debugging but this should get things started.  Have fun and keep learning!</p>
+
+  </div>
+
+  <!--
+  Uncomment the below when tags start working
+  <ul>
+    <li>
+        <a href="../../blog/tag/python">
+          All posts tagged python
+    <li>
+        <a href="../../blog/tag/ipython">
+          All posts tagged ipython
+    <li>
+        <a href="../../blog/tag/debugging">
+          All posts tagged debugging
+    <li>
+        <a href="../../blog/tag/tutorial">
+          All posts tagged tutorial
+    
+</ul> 
+ -->
+<div class="comments">
+<div id="disqus_thread"></div>
+<script>
+  var disqus_config = function() { this.page.identifier = "/blog/ipython-debugging"; };
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = '//forbajatotechblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>
+  Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript"
+    rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+</div>
+
+  </div>
+  </div>
+  <footer>
+    &copy; Copyright 2016 by Thomas C. Hicks.
+  </footer>
+</body>
