@@ -5,3 +5,7 @@ script: "lektor build"
 deploy:
   provider: script
   script: "lektor deploy ghpages"
+cache:
+  directories:
+    - $HOME/.cache/pip
+    - $HOME/.cache/lektor/builds
