@@ -5,5 +5,5 @@ name = Forbajato Techblog
 lektor-disqus-comments = 0.1
 lektor-tags = 0.1
 
-[servers.ghpages]
+[servers.ghpages-https]
 target = ghpages+https://forbajato/forbajato-techblog
