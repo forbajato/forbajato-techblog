@@ -1,6 +1,9 @@
 [project]
 name = Forbajato Techblog
 
+[servers.ghpages]
+target = ghpages+https://forbajato/techblog
+
 [packages]
 lektor-disqus-comments = 0.1
 lektor-tags = 0.1
