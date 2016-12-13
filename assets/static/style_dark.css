@@ -14,18 +14,13 @@ h1 {
   font-family: 'Advent Pro', sans-serif;
   text-rendering: optimizeLegibility;
   font-weight: normal;
-  color: #eee;
+  color: #eee
   }
 
 h2 {
   font-family: "Advent Pro", sans-serif;
   text-rendering: optimizeLegibility;
   font-weight: normal;
-  color: #eee;
-}
-
-ol, li {
-    color: #eee;
 }
 
 h1 small {

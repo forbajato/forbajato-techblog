@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}{{ this.title }}{% endblock %}
+{% block body %}
+  <h1>{{ this.title }}</h1>
+      <p class="meta">
+          by {{ this.author }}
+          on {{ this.pub_date|dateformat('full') }}
+      <div class="body>" {{ this.body }}></div>
+      {% if this.tags %}
+        <ul>
+          {% for t in this.tags -%}
+            <li>
+              <a href="{{ ('/blog/@tag/' ~ t.lower())|url }}">
+                All posts tagged {{ t }}</a>
+          {% endfor %}
+        </ul>
+      {% endif %}
+<div class="comments">{{ render_disqus_comments() }}</div>
+{% endblock %}

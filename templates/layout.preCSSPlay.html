@@ -1,0 +1,47 @@
+<!doctype html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Advent+Pro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <style>
+    h1 {
+        font-family: 'Advent Pro', sans-serif;
+        text-rendering: optimizeLegibility;
+        font-style: normal;
+        font-weight: 600;
+    }
+    p {
+        font-family: "Roboto", sans-serif;
+        text-rendering: optimizeLegibility;
+        font-style: normal;
+    }
+    </style>
+</head>
+<meta charset="utf-8">
+<!-- <link rel="stylesheet" href="{{ '/static/style.css'|url }}"> -->
+<link rel="stylesheet" href="{{'/css/bootstrap-theme.min.css'}}">
+<title>{% block title %}Welcome{% endblock %} — Forbajato Techblog</title>
+<body>
+  <header>
+    <h1>Forbajato Techblog</h1>
+    <nav>
+      <ul class="nav navbar-nav">
+        <li{% if this._path == '/' %} class="active"{% endif
+          %}><a href="{{ '/'|url }}">Welcome</a></li>
+        {% for href, title in [
+          ['/blog', 'Blog'],
+          ['/projects', 'Projects'],
+          ['/about', 'About']
+        ] %}
+          <li{% if this.is_child_of(href) %} class="active"{% endif
+            %}><a href="{{ href|url }}">{{ title }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </header>
+  <div class="page">
+    {% block body %}{% endblock %}
+  </div>
+  <footer>
+    &copy; Copyright 2016 by Thomas C. Hicks.
+  </footer>
+</body>

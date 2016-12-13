@@ -6,7 +6,7 @@ summary: Ipython is a great interactive development environment, since I discove
 ---
 body:
 
-Ever write a bit of quick code and then run it in your interpreter only to find it error out?  How do you go about debugging?  I generally look at the output, wish I understood it better and then start putting in print statements so I can figure out what is going on at various places in the code.  What if there was a better way?  I had heard about this python debugger (pdb) but had never really understood what it did.  Mike Driscoll, of the Mouse vs. Python blog, has done an awesome job explaining the python debugger (you can check it out [here](http://www.blog.pythonlibrary.org/2014/03/19/pytho-101-an-introduction-to-pythons-debugger/)).  Only problem - I use Ipython so what does this mean to me?
+Ever write a bit of quick code and then run it in your interpreter only to find it error out?  How do you go about debugging?  I generally look at the output, wish I understood it better and then start putting in print statements so I can figure out what is going on at various places in the code.  What if there was a better way?  I had heard about this python debugger (pdb) but had never really understood what it did.  Mike Driscoll, of the Mouse vs. Python blog, has done an awesome job explaining the python debugger (you can check it out [here](http://www.blog.pythonlibrary.org/2014/03/19/pytho-101-an-introduction-to-pythons-debugger/)). Only problem - I use Ipython so what does this mean to me?
 
 Ipython employs magic commands to do a number of functions, debugging is one of them.  For instance, say you have the same silly code from Driscoll's article:
 
