@@ -94,9 +94,9 @@
 <h1>Point Firefox at the newly created proxy server</h1>
 <p>Firefox is happy to send its traffic anywhere you would like.  Normally it just follows the rules on your system or router but this is a special case where you want to send that traffic out the tunnel.  To do that you have to make some changes in Firefox.</p>
 <p>Open the Preferences dialog window (Edit&gt;Preferences or click "Preferences" from the menu button usually in the top right of the Firefox window). Choose the "Advanced" tab and click on the "Network" tab.  The dialog you see will look like the photo below.</p>
-<p><img src="../../static/PreferencesAdvancedNetwork.png" alt="Network Settings Tab"></p>
+<p><img src="../../static/img/poor_mans_vpn_PreferencesAdvancedNetwork.png" alt="Network Settings Tab"></p>
 <p>Click the "Settings" button.  The new dialog will look like the screenshot below:</p>
-<p><img src="../../static/PreferencesAdvancedNetworkSettings.png" alt="Network Settings Dialog"></p>
+<p><img src="../../static/img/poor_mans_vpn_PreferencesAdvancedNetworkSettings.png" alt="Network Settings Dialog"></p>
 <p>Select the "Manual proxy configuration" radio button, the boxes under it will be come active.  In the 'SOCKS Host" box put <code>127.0.0.1</code> and make the corresponding port <code>12345</code>.  Make sure the <code>SOCKS v5</code> radio button is selected.</p>
 <p>For a lot of things this may work.  The problem is you can run into DNS settings on some networks (or in some countries) where the DNS servers are hijacked and return gibberish when you try to connect to a disallowed service.  To make sure all the DNS traffic goes through the tunnel you need one more step.</p>
 <h1>Edit about:config preferences (que lightening strike and ominous music)</h1>
