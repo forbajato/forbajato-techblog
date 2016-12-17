@@ -38,11 +38,11 @@ Firefox is happy to send its traffic anywhere you would like.  Normally it just 
 
 Open the Preferences dialog window (Edit>Preferences or click "Preferences" from the menu button usually in the top right of the Firefox window). Choose the "Advanced" tab and click on the "Network" tab.  The dialog you see will look like the photo below.
 
-![Network Settings Tab](/static/PreferencesAdvancedNetwork.png)
+![Network Settings Tab](/static/img/poor_mans_vpn_PreferencesAdvancedNetwork.png)
 
 Click the "Settings" button.  The new dialog will look like the screenshot below:
 
-![Network Settings Dialog](/static/PreferencesAdvancedNetworkSettings.png)
+![Network Settings Dialog](/static/img/poor_mans_vpn_PreferencesAdvancedNetworkSettings.png)
 
 
 Select the "Manual proxy configuration" radio button, the boxes under it will be come active.  In the 'SOCKS Host" box put `127.0.0.1` and make the corresponding port `12345`.  Make sure the `SOCKS v5` radio button is selected.
