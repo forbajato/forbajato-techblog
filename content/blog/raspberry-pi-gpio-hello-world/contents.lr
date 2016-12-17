@@ -30,7 +30,7 @@ How do you know how much resistance your resistor gives?  Check the color bands.
 
 Since LEDs only conduct electricity in one direction it is good to figure out what direction that is.  If your LED is new then you want the longer wire coming out toward the juice, the shorter wire toward the ground.  If (like me) you have a box of salvage components that you are using, you can't count on that long wire still being the original long one.  To verify you can use a multimeter on its conductance setting.  This allows you to put the probes of the multimeter to test whether a circuit is conducting electricity.  Put the probes on one way and then the other, which ever direction conducts the juice is the direction to plug in the LED.  When you have the LED and the resistor plugged into the breadboard it will look something like this:
 
-![LED and resistor](/static/img/gpio_hello_world_led_and_resistor_scaled.JPG)
+![LED and resistor](/static/img/gpio_hello_world_led_and_resistor_scaled.png)
 
 # The circuit
 
@@ -42,7 +42,7 @@ at the terminal, look for the line "Revision" - probably near the bottom of the 
 
 I am using a T-Cobbler Plus, a nifty little device from [Adafruit](http://www.adafruit.com) that allows you to easily plug the GPIO pins from your RPi to a breadboard.  You can see from the bird's eye view of the circuit there is a ribbon cable between the T-Cobbler and the RPi, the T-Cobbler pins are plugged into the breadboard bridging the little well in the middle, note that the T-Cobbler pins are wide enough you will loose a column or two of pins on the breadboard when using it.  This thing is so handy, loosing parts of a couple columns of pins is a small price to pay.
 
-![Bird's eye view](/static/img/gpio_hello_world_circuit_birds_eye_view_scaled.JPG)
+![Bird's eye view](/static/img/gpio_hello_world_circuit_birds_eye_view_scaled.png)
 
 From the circuit photo below you can see I have the orange wire plugged in at pin 25 on the right side, it is wired across to the red rail on the left side.  Then the yellow wire connects the red rail to the row where the LED is plugged in.  The LED spans the well in the middle of the breadboard and the resistor has one end in the row with the LED and one end in the blue (ground) rail on the right side of the breadboard.  The blue wire connects the blue rail to a GND pin on the T-Cobbler.
 
@@ -50,7 +50,7 @@ Keep in mind that there are two ways to number the pins, I am referring to pin 2
 
 So when electricity flows it goes from live pin (in our case pin 25)-> through the circuit -> to the ground pin. I like to think of it in that direction because that is the way the electrons are flowing.  In our circuit they will flow out of pin 25 through the LED, then the resistor, then back to the ground pin on the RPi.  It turns out that resistance is a function of the whole circuit so you can put the resistor on either side of the LED that is convenient.
 
-![The full circuit](/static/img/gpio_hello_world_circuit_scaled.JPG)
+![The full circuit](/static/img/gpio_hello_world_circuit_scaled.png)
 
 ## An aside about breadboards
 
