@@ -1,0 +1,234 @@
+<!doctype html>
+<head>
+    <!--<link href="https://fonts.googleapis.com/css?family=Advent+Pro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <!-- <link rel="stylesheet" href="/css/bootstrap-theme.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../../static/style.css">
+</head>
+<meta charset="utf-8">
+
+<!-- <link rel="stylesheet" href="/css/bootstrap-theme.min.css"> -->
+<title>Onion Omega2 Wifi Scanner — Forbajato Techblog</title>
+<body id="bgc">
+    <div class="navbar navbar-default navbar-fixed-top" id="bgc">
+      <div class="container">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> </button>
+      <a class="navbar-brand" href="#">ForbajatoTechblog</a>
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../blog/">Blog</a></li>
+        
+          <li><a href="../../about/">About</a></li>
+        
+      <!-- <li class="active"><a href="#home">Home</a></li>
+      <li class="active"><a href="#portfolio">Blog</a></li>
+      <li class="active"><a href="#about">About</a></li> -->
+      </ul></span>
+      <span class="icon-bar">
+      <!-- <ul class="nav navbar navbar-center">
+      <li><a href="http://www.gansugateway.com">Gansu Gateway</a></li>
+      </ul> --> </span>
+      <span class="icon-bar"></span>
+      </div>
+      <div class="navbar-header">
+      <div class="navbarcal-collapse collapse">
+      </div>
+      </div>
+  </div>
+<div class="container">
+  <header>
+      <div class="content">
+       <div class="row">
+       <div class="page-header-wrapper">
+       <div class="page-header">
+       <h1 id="headline">Welcome to Forbajato's Techblog!<small> Documenting tech wins and losses</small></h1>
+       </div>
+   </div>
+   </div>
+   </div>
+</div>
+<!--    <h1>Forbajato Techblog</h1>
+    <nav>
+      <ul class="nav navbar-nav">
+        <li><a href="../../">Welcome</a></li>
+        
+          <li class="active"><a href="../../blog/">Blog</a></li>
+        
+          <li><a href="../../projects/">Projects</a></li>
+        
+          <li><a href="../../about/">About</a></li>
+        
+      </ul>
+  </nav> -->
+  </header>
+  <div class="container">
+  <div class="page">
+    
+  
+  <div class="blog-post">
+  
+    <h2>Onion Omega2 Wifi Scanner</h2>
+  
+  <p class="meta">
+    written by
+    
+      Thomas Hicks
+    
+    on 2017-02-10
+  </p>
+  <h1>Physical Computing's New Kid in Town</h1>
+<p>I am a sucker for SBCs (Single Board Computers) and when the Onion Omega2 was on Kickstarter I just couldn't help myself.  A 5USD Linux computer?!? It was too much to resist.  On my order I got an Omega2+ (Ok, 9USD but with more memory), an expansion dock and a couple of boards.  In this project we are going to use an Omega2+ plugged in to the Expansion dock with an OLED board on it.  Here is the setup (and yes, that is a normal sized paperclip, this thing really is that small!):</p>
+<p><img src="../../static/img/omega2_expansion_dock.png" alt="Omega2 and Expansion Dock"></p>
+<p>In the photo you can see the Omega2 on the left side (with the MAC address sticker on it), the USB connection (for adding webcams, etc.) and the mini-USB port (where you connect to a power supply).  To get a full introduction to the Omega2 check out the excellent documentation on the website <a href="https://docs.onion.io/omega2-docs/first-time-setup.html">here</a>.</p>
+<p>Since getting this beast I have gone through the setup per the documentation, played a bit with using the OLED through the command line and done some basic play using the OLED with python scripts.  If you are interested in just playing with the OLED using python, check out the OLED documentation <a href="https://docs.onion.io/omega2-docs/oled-expansion-python-module.html#oled-expansion-python-module">here</a>.</p>
+<p>The Onion guys have done a great job getting their documentation online but another thing they do is to send out periodic emails with tips on how to use the device.  Recently the email contained a command line command that will use the Omega2's wifi to poll nearby wifi networks and give you information about them.  My knee jerk - I bet I could put that in a python script and have it output the polling data to the OLED.  That is what this project is all about.</p>
+<h1>Getting Wifi network information via the Omega2+'s command line</h1>
+<p>I will assume you know how (after reading the above linked documentation) to SSH into your Omega2 and login.  The command for getting the wifi antenna on the Omega to poll local wifi networks is:</p>
+<pre><code>ubus call onion wifi-scan "{'device':'ra0'}"
+</code></pre>
+<p>Just enter that and you will get a huge list of wifi information, something like this:</p>
+<pre><code>{ "results":
+    [
+        { "channel": "8", "ssid": "Onion HQ", "bssid": "40:a3:6b:c0:29:70", "authentication": "AES", "encryption": "WPA2PSK", "signalStrength": "100", "wirelessMode": "11b/g/n", "ext-ch": "NONE" },
+        { "channel": "6", "ssid": "flattop", "bssid": "40:a3:6b:c0:29:c2", "authentication": "TKIPAES", "encryption": "WPA1PSKWPA2PSK", "signalStrength": "47", "wirelessMode": "11b/g/n", "ext-ch": "NONE" }
+    ]
+}
+</code></pre>
+<p>Now that mess is what is called a JSON object, it isn't really a python dictionary (I know it looks like one, treating it like one stymied me for a while) but it can be read into a python dictionary with a little bit of code.</p>
+<p>Looking at the JSON object returned, my thought was to get my Omega2 to scan wifi networks and output the name of the network and the signal strength to the OLED monitor.  This will require a few steps:</p>
+<ol>
+<li>Scan wifi networks with a system command.</li>
+<li>Capture the JSON object in some form that I can read into a python script and parse (I decided to save it as a text file).</li>
+<li>Read the JSON object into a python dictionary.</li>
+<li>Output the desired SSID's signal strength to the OLED.</li>
+</ol>
+<p>It turns out the output was the most fiddly part (after figuring out how to get the JSON object into a python dictionary).</p>
+<h1>The Python Script</h1>
+<pre><code>import json
+import os
+
+from OmegaExpansion import oledExp
+from time import sleep as sleep
+
+oledExp.driverInit()
+oledExp.setTextColumns()
+oledExp.clear()
+
+while True:
+    oledExp.clear()
+    oledExp.setCursor(1,0)
+    oledExp.write('Scanning networks')
+    os.system("ubus call onion wifi-scan \"{\'device\':\'ra0\'}\" &gt; wifis.json")
+
+    with open('./wifis.json','r') as wifis:
+        wifilist = json.load(wifis)
+
+    oledExp.setCursor(3,0)
+    for i in wifilist['results']:
+        if i['ssid'] == 'myRouter':
+            output = i['ssid']+' '+i['signalStrength']
+            oledExp.write(output)
+    sleep(2)
+</code></pre>
+<p>So, not too difficult.  First let me walk through the code then offer a few caveats.</p>
+<h2>Dealing with imports</h2>
+<pre><code>import json
+import os
+</code></pre>
+<p>Both of these modules are in the Python Standard Library, nothing fancy needed to use them other than to import them.  Keep in mind when you import like this you will need to call your methods using the "module name.method" syntax:</p>
+<pre><code>os.system(&lt;some command you would normally issue at the command line&gt;)
+</code></pre>
+<p>The Omega2 does not come ready to drive the OLED board, if you followed the link above on how to use the OLED board with Python then you installed the OmegaExpansion module already, if not but you want to run this code on your Omega - go install it now.</p>
+<pre><code>from OmegaExpansion import oledExp
+from time import sleep as sleep
+</code></pre>
+<p>Importing the oledExp module gives us all the methods we need to drive the OLED board.  The time module has a ton of useful methods but we only really need sleep - why get the whole module when you only need one method?</p>
+<h2>Initializing the OLED</h2>
+<p>Next we need to initialize the OLED and set it up to take input from our script.</p>
+<pre><code>oledExp.driverInit()
+oledExp.setTextColumns()
+oledExp.clear()
+</code></pre>
+<p>I should point out (since I got tripped up) that the OmegaExpansion module apparently only works with Python2.x, I tried running it with Python3 and no go.</p>
+<h2>Grabbing and parsing the wifi network data</h2>
+<p>Now the meat of the script.</p>
+<pre><code>while True:
+    oledExp.clear()
+    oledExp.setCursor(1,0)
+    oledExp.write('Scanning networks')
+    os.system("ubus call onion wifi-scan \"{\'device\':\'ra0\'}\" &gt; wifis.json")
+</code></pre>
+<p>The os.system call sends our command to the operating system of the Omega2.  You will notice a number of backslashes in that call - python (and all computer languages) is picky about pairing up quotes.  If you don't put those backslashes in there then python will think you are closing prior quotation marks.  But we want to pass these quotes into the command line command - hence the "escaping" (by means of the backslashes) of the quotes inside the os.system call.</p>
+<pre><code>    with open('./wifis.json','r') as wifis:
+        wifilist = json.load(wifis)
+</code></pre>
+<p>There may be a way to translate that JSON object returned by the ubus call directly into a dictionary but I couldn't find it.  Reading text files in python is easy though and translating JSON objects stored as text is just as easy with the json module.  Thus I sent the output of the ubus command to a text file (the "&gt; wifis.json" part of the above os.system call) and then read it in with this section.  The json.load(wifis) call simply gets that text file and interprets it as a JSON object, making it accessible to the python script as a dictionary.</p>
+<pre><code>    oledExp.setCursor(3,0)
+    for i in wifilist['results']:
+        if i['ssid'] == 'myRouter':
+            output = i['ssid']+' '+i['signalStrength']
+            oledExp.write(output)
+</code></pre>
+<p>I knew the ssid of my router and decided what I really wanted this device to do was tell me how good the signal from my router was wherever the device happened to be.  You can simply change the if statement to whatever your router SSID is in order to make this work for you.</p>
+<p>Dictionaries are great - they come in key:value pairs so you can find whatever data you want in there by just asking for the key.  In this case we want to look at the 'ssid' key in the dictionary that is 'myRouter'.  It is that object in the dictionary that we want to inspect and get the signal strength for, the other pieces of the dictionary are uninteresting to us right now.</p>
+<p>The oledExp.write method didn't handle weird python type strings so I decided to assign the output I needed to the variable "output".  When I tell oledExp.write to output that variable - all is golden!</p>
+<pre><code>    sleep(2)
+</code></pre>
+<p>Ah, glorious sleep!  The sleep method takes an argument in seconds so sleep(2) will pause execution of our script for 2 seconds.  I must admit the first version of the script didn't use sleep (like much of my life) and it became very hard to understand (also like much of my life) as the screen was writing and rewriting too fast to read.  Add a little sleep and Voila - a wifi signal strength scanner!</p>
+<p>Finally I plugged my Omega2 into a cell phone battery charger and now I can walk around the house to check signal strength of our wifi (and amuse my daughter).</p>
+<h2>Final product!</h2>
+<p>And here is the final scanner:</p>
+<p><img src="../../static/img/omega2_wifi_scanner.png" alt="Omega2 Wifi Scanner"></p>
+<h1>Further hacking ideas</h1>
+<p>Since the ubus command returns info on all wifi networks detected you could have the OLED roll the output and have each wifi network printed in turn.  Alternatively, what about putting the data out into a CSV file, pair this with a GPS module (haven't played with one of those - will it work with the OLED?) you could make a map of wifi signal strengths.  There has got to be other interesting things that ubus command can do - I haven't found documentation for it yet though.  For now keep hacking!</p>
+<p>Soli Deo Gloria!</p>
+
+  </div>
+
+  <!--
+  Uncomment the below when tags start working
+  <ul>
+    <li>
+        <a href="../../blog/tag/diy">
+          All posts tagged diy
+    <li>
+        <a href="../../blog/tag/physical computing">
+          All posts tagged physical computing
+    <li>
+        <a href="../../blog/tag/omega2">
+          All posts tagged omega2
+    <li>
+        <a href="../../blog/tag/python">
+          All posts tagged python
+    
+</ul> 
+ -->
+<div class="comments">
+<div id="disqus_thread"></div>
+<script>
+  var disqus_config = function() { this.page.identifier = "/blog/onion-omega2-wifi-scanner"; };
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = '//forbajatotechblog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>
+  Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript"
+    rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+</div>
+
+  </div>
+  </div>
+  <footer>
+    &copy; Copyright 2016 by Thomas C. Hicks.
+  </footer>
+</body>
